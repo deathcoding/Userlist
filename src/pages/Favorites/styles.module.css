@@ -1,0 +1,12 @@
+.text {
+  margin: 0 auto;
+  padding: 30px;
+  width: 300px;
+  font-size: x-large;
+}
+
+.input {
+  max-width: 300px;
+  margin: 10px auto;
+  display: block;
+}
