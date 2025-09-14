@@ -5,8 +5,7 @@ export interface IUser {
   phone: string;
 }
 
-export type EditUser = (user: IUser) => void;
-export type CreateUser = (user: IUser) => void;
+export type UserAction = (user: IUser) => void;
 
 export interface FormData {
   id: string | number;

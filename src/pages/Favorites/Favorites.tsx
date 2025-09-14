@@ -15,7 +15,7 @@ export default function Favorites() {
   );
 
   return (
-    <div>
+    <>
       <header className={styles.header}>
         <Input
           placeholder="Type user name"
@@ -40,6 +40,6 @@ export default function Favorites() {
         </p>
       )}
       <UserList users={filteredUsers} />
-    </div>
+    </>
   );
 }

@@ -1,14 +1,14 @@
 import { Modal } from "antd";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
-import type { CreateUser, EditUser, IUser } from "../../types";
+import type { UserAction, IUser } from "../../types";
 import { v4 as uuidv4 } from "uuid";
 import type { FormData } from "../../types";
 
 interface IUserFormProps {
   initialUserData?: IUser;
-  editUser?: EditUser;
-  createUser?: CreateUser;
+  editUser?: UserAction;
+  createUser?: UserAction;
   isOpen: boolean;
   onClose: (arg: boolean) => void;
 }
