@@ -5,6 +5,7 @@ import useFavorites from "../../hooks/useFavorites";
 import { useLocation } from "react-router";
 import { useState } from "react";
 import UserForm from "../UserForm/UserForm";
+
 interface IUserCard {
   userInfo: IUser;
 }
@@ -23,8 +24,8 @@ export default function UserCard({ userInfo }: IUserCard) {
       className={styles.card}
       hoverable
     >
-      <p>{userInfo.email}</p>
-      <p>{userInfo.phone}</p>
+      <p>e-mail: {userInfo.email}</p>
+      <p>phone: {userInfo.phone}</p>
       <Flex gap="small">
         <Button onClick={() => toggleFavorite(userInfo)}>
           {isFavorite ? "Remove from favorites" : "Add to favorites"}
@@ -37,12 +38,10 @@ export default function UserCard({ userInfo }: IUserCard) {
       </Flex>
       {isEditing && (
         <UserForm
-          edit={editFavoriteUser}
-          id={userInfo.id}
-          name={userInfo.name}
-          email={userInfo.email}
-          phone={userInfo.phone}
-          setIsEditing={setIsEditing}
+          initialUserData={userInfo}
+          editUser={editFavoriteUser}
+          isOpen={isEditing}
+          onClose={setIsEditing}
         />
       )}
     </Card>

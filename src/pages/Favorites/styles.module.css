@@ -7,6 +7,12 @@
 
 .input {
   max-width: 300px;
-  margin: 10px auto;
-  display: block;
+  margin: 10px;
+  /* display: block; */
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,70 +1,101 @@
-import { Button } from "antd";
+import { Modal } from "antd";
 import { useForm } from "react-hook-form";
 import styles from "./styles.module.css";
-
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-}
+import type { CreateUser, EditUser, IUser } from "../../types";
+import { v4 as uuidv4 } from "uuid";
+import type { FormData } from "../../types";
 
 interface IUserFormProps {
-  name?: string;
-  id?: number;
-  email?: string;
-  phone?: string;
-  edit: (id: number, name: string, email: string, phone: string) => void;
-  setIsEditing: (arg: boolean) => void;
+  initialUserData?: IUser;
+  editUser?: EditUser;
+  createUser?: CreateUser;
+  isOpen: boolean;
+  onClose: (arg: boolean) => void;
 }
 
-export default function UserForm(props: IUserFormProps) {
-  const { id, name, email, phone, edit, setIsEditing } = props;
-
+export default function UserForm({
+  initialUserData,
+  isOpen,
+  onClose,
+  editUser,
+  createUser,
+}: IUserFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      name: name || "",
-      email: email || "",
-      phone: phone || "",
+      id: initialUserData?.id || uuidv4(),
+      name: initialUserData?.name || "",
+      email: initialUserData?.email || "",
+      phone: initialUserData?.phone || "",
     },
-    mode: "onSubmit", // валидация только при сабмите
-    reValidateMode: "onSubmit", // повторная валидация только при сабмите
+    mode: "onChange",
   });
 
-  function onSubmit(data: FormData) {
-    if (id !== undefined) {
-      edit(id, data.name, data.email, data.phone);
-    } else {
-      console.log("create new user");
+  function onSubmit(userData: FormData) {
+    if (editUser !== undefined) {
+      editUser(userData);
+    } else if (createUser !== undefined) {
+      createUser(userData);
     }
-    setIsEditing(false);
+    onClose(false);
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-      <label>Name</label>
-      <input
-        id="name"
-        {...register("name", {
-          required: "Имя обязательно для заполнения",
-          minLength: {
-            value: 2,
-            message: "Имя должно содержать минимум 2 символа",
-          },
-        })}
-      />
-      {errors.name && <p role="alert">First name is required</p>}
-      <label>Email</label>
-      <input id="email" type="email" {...register("email")} />
-
-      <label>Phone</label>
-      <input id="name" type="phone" {...register("phone")} />
-      <Button type="primary" htmlType="submit">
-        Submit
-      </Button>
-    </form>
+    <Modal
+      open={isOpen}
+      onCancel={() => onClose(false)}
+      okButtonProps={{ htmlType: "submit", form: "user-edit-form" }}
+    >
+      <form
+        id="user-edit-form"
+        className={styles.form}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <label>Name</label>
+        <input
+          className={styles.input}
+          id="name"
+          {...register("name", {
+            required: true,
+          })}
+        />
+        {errors.name && (
+          <p role="alert" className={styles.error}>
+            name is required
+          </p>
+        )}
+        <label>Email</label>
+        <input
+          className={styles.input}
+          id="email"
+          type="email"
+          {...register("email", {
+            required: true,
+          })}
+        />
+        {errors.email && (
+          <p role="alert" className={styles.error}>
+            email is required
+          </p>
+        )}
+        <label className={styles.label}>Phone</label>
+        <input
+          className={styles.input}
+          id="phone"
+          type="tel"
+          {...register("phone", {
+            required: true,
+          })}
+        />
+        {errors.phone && (
+          <p role="alert" className={styles.error}>
+            phone is required
+          </p>
+        )}
+      </form>
+    </Modal>
   );
 }

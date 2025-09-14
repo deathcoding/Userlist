@@ -22,26 +22,28 @@ export function FavoritesProvider({ children }: IFavoritesProviderProps) {
     }
   }
 
-  function editFavoriteUser(
-    id: number,
-    name: string,
-    email: string,
-    phone: string,
-  ) {
+  function editFavoriteUser(userToEdit: IUser) {
     setFavorites(
-      favorites.map((favUser) => {
-        if (favUser.id === id) {
-          return { ...favUser, name, email, phone };
-        } else {
-          return favUser;
-        }
-      }),
+      favorites.map((favUser) =>
+        favUser.id === userToEdit.id ? userToEdit : favUser,
+      ),
     );
+  }
+
+  function createFavoriteUser(userData: IUser) {
+    setFavorites((prevFav) => {
+      return [...prevFav, userData];
+    });
   }
 
   return (
     <FavoritesContext.Provider
-      value={{ favorites, toggleFavorite, editFavoriteUser }}
+      value={{
+        favorites,
+        toggleFavorite,
+        editFavoriteUser,
+        createFavoriteUser,
+      }}
     >
       {children}
     </FavoritesContext.Provider>

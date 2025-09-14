@@ -1,0 +1,29 @@
+.error {
+  color: red;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+label {
+  padding: 5px 0;
+}
